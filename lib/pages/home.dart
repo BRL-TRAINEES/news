@@ -43,9 +43,11 @@ int activeIndex=0;
         centerTitle: true,
         elevation: 0.0 ,
       ),
-      body:Container(
+      body: SingleChildScrollView(
+      child: Container(
 
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start ,
           children: [
             Container(
               margin: EdgeInsets.only(left: 10),
@@ -62,7 +64,22 @@ int activeIndex=0;
               );
             }),),
             SizedBox(height: 20.0,),
-            CarouselSlider.builder(itemCount: sliders.length, itemBuilder: (context, index ,realIndex){
+            const Padding(
+              padding: EdgeInsets.only(left: 10.0,right: 10.0),
+
+           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Text("Breaking News!",style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold),),
+            Text("view All",style: TextStyle(color: Colors.blue)),
+            
+            ],
+             ),
+              ),
+            SizedBox(height: 5.0,),
+            CarouselSlider.builder(
+              itemCount: sliders.length,
+               itemBuilder:(context, index ,realIndex){
 
               String? res= sliders[index].image;
               String? res1=sliders[index].name;
@@ -74,17 +91,134 @@ int activeIndex=0;
             
             enlargeCenterPage: true,
             enlargeStrategy: CenterPageEnlargeStrategy.height,
-            onPageChanged: (index,reason){
-              setState(() {
-                activeIndex=index;
-              });
-            }
-            )),
+            onPageChanged: (index, reason) {
+             setState(() {
+               activeIndex = index;
+             }); 
+            },
+              
+            
+            ),),
+            SizedBox(height: 30.0,),
+            Center(child: buildIndicator(),),
+            SizedBox(height: 20.0,),
+            const Padding(
+              padding: EdgeInsets.only(left: 10.0,right: 10.0),
 
-            SizedBox(height: 20,); 
-            buildIndicator();
+           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Text("Trending News!",style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold),),
+            Text("view All",style: TextStyle(color: Colors.blue)),
+            
+            ],
+             ),
+           
+             ),
+             SizedBox(height: 10,),
+
+             Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+              child:Material(
+                elevation: 4.0,
+                child:Padding(
+                  padding: EdgeInsets.all(5.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child:ClipRRect(
+                  borderRadius:BorderRadius.circular(5) ,
+               child:  Image.asset("images/science.png",height: 100,width: 100,fit: BoxFit.cover,),),
+
+              ),
+              SizedBox(width: 10,),
+
+             Column(   
+              children: [
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text("reason for corona virus ",
+              style: TextStyle(
+                
+                color: const Color.fromARGB(255, 1, 3, 4),
+                fontSize: 15,
+                fontWeight: FontWeight.bold)
+                ),
+              ),
+
+              SizedBox(height: 5.0,),
+       
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text("scientist found the the reason and place of corona virus ",
+              style: TextStyle(
+                
+                color: const Color.fromARGB(230, 49, 50, 50),
+                fontSize: 13)
+                ),
+              ),
+              ]
+             ),
+            ],
+        ),
+                ),
+          ),
+             ),
+
+             SizedBox(height: 10,),
+
+             Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+              child:Material(
+                elevation: 4.0,
+                child:Padding(
+                  padding: EdgeInsets.all(5.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child:ClipRRect(
+                  borderRadius:BorderRadius.circular(5) ,
+               child:  Image.asset("images/science.png",height: 100,width: 100,fit: BoxFit.cover,),),
+
+              ),
+              SizedBox(width: 10,),
+
+             Column(   
+              children: [
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text("reason for corona virus ",
+              style: TextStyle(
+                
+                color: const Color.fromARGB(255, 1, 3, 4),
+                fontSize: 15,
+                fontWeight: FontWeight.bold)
+                ),
+              ),
+
+              SizedBox(height: 5.0,),
+       
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text("scientist found the the reason and place of corona virus ",
+              style: TextStyle(
+                
+                color: const Color.fromARGB(230, 49, 50, 50),
+                fontSize: 13)
+                ),
+              ),
+              ]
+             ),
+            ],
+        ),
+                ),
+          ),
+             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -114,12 +248,15 @@ int activeIndex=0;
       ],
     ),
   );
+
+
+Widget buildIndicator()=> AnimatedSmoothIndicator(
+  activeIndex: activeIndex,
+   count: sliders.length,
+   effect: SlideEffect(dotWidth: 10,dotHeight:10,activeDotColor: Colors.blue),
+   );
+
 }
-
-Widget buildIndicator()=>AnimatedSmoothIndicator(
-  activeIndex: activeIndex, 
-  count: sliders.length),
-
 class Categorytile extends StatelessWidget {
  final image , categoryname;
  Categorytile({this.categoryname,this.image});
