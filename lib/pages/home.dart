@@ -2,9 +2,11 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/models/article_model.dart';
 import 'package:newsapp/models/categorymodel.dart';
 import 'package:newsapp/models/slider_model.dart';
 import 'package:newsapp/sevices/data.dart';
+import 'package:newsapp/sevices/news.dart';
 import 'package:newsapp/sevices/slider_data.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -19,6 +21,8 @@ class _HomeState extends State<Home> {
 
 List<Categorymodel> categories=[];
 List<SliderModel> sliders=[];
+List<ArticleModel> articles=[];
+bool _loading=true;
 
 int activeIndex=0;
 @override
@@ -28,6 +32,14 @@ int activeIndex=0;
       super.initState();
   }
 
+getNews()async{
+News newsclass=News();
+await newsclass.getNews();
+articles=newsclass.news;
+setState(() {
+  _loading=false;
+});
+}
 
   @override
   Widget build(BuildContext context) {
