@@ -5,8 +5,8 @@ class ArticleModel {
   String? title;
   String? description;
   String? url;
-  String? urlToimage;
+  String? urlToImage;
   String? content;
 
-  ArticleModel({this.author,this.content,this.description,this.title,this.url,this.urlToimage});
+  ArticleModel({this.author,this.content,this.description,this.title,this.url,this.urlToImage});
 } 

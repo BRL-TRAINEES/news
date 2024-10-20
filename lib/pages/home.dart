@@ -29,17 +29,18 @@ int activeIndex=0;
   void initState() {
     categories = getCategories();
     sliders = getSliders();
+    getNews();
       super.initState();
   }
+  getNews()async{
+    News newsclass = News();
+    await newsclass.getNews();
+    articles=newsclass.news;
+    setState(() {
+      _loading=false;
+    });
+  }
 
-getNews()async{
-News newsclass=News();
-await newsclass.getNews();
-articles=newsclass.news;
-setState(() {
-  _loading=false;
-});
-}
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ setState(() {
         centerTitle: true,
         elevation: 0.0 ,
       ),
-      body: SingleChildScrollView(
+      body: _loading? Center( child:  CircularProgressIndicator()): SingleChildScrollView(
       child: Container(
 
         child: Column(
@@ -127,108 +128,21 @@ setState(() {
              ),
            
              ),
-             SizedBox(height: 10,),
 
-             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-              child:Material(
-                elevation: 4.0,
-                child:Padding(
-                  padding: EdgeInsets.all(5.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child:ClipRRect(
-                  borderRadius:BorderRadius.circular(5) ,
-               child:  Image.asset("images/science.png",height: 100,width: 100,fit: BoxFit.cover,),),
-
-              ),
-              SizedBox(width: 10,),
-
-             Column(   
-              children: [
-              Container(
-                width: MediaQuery.of(context).size.width /1.7,
-              child: Text("reason for corona virus ",
-              style: TextStyle(
-                
-                color: const Color.fromARGB(255, 1, 3, 4),
-                fontSize: 15,
-                fontWeight: FontWeight.bold)
-                ),
-              ),
-
-              SizedBox(height: 5.0,),
-       
-              Container(
-                width: MediaQuery.of(context).size.width /1.7,
-              child: Text("scientist found the the reason and place of corona virus ",
-              style: TextStyle(
-                
-                color: const Color.fromARGB(230, 49, 50, 50),
-                fontSize: 13)
-                ),
-              ),
-              ]
+             SizedBox(
+              height: 10.0,
              ),
-            ],
-        ),
-                ),
-          ),
-             ),
-
-             SizedBox(height: 10,),
-
-             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-              child:Material(
-                elevation: 4.0,
-                child:Padding(
-                  padding: EdgeInsets.all(5.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child:ClipRRect(
-                  borderRadius:BorderRadius.circular(5) ,
-               child:  Image.asset("images/science.png",height: 100,width: 100,fit: BoxFit.cover,),),
-
-              ),
-              SizedBox(width: 10,),
-
-             Column(   
-              children: [
-              Container(
-                width: MediaQuery.of(context).size.width /1.7,
-              child: Text("reason for corona virus ",
-              style: TextStyle(
+             Container(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: articles.length,
+                 itemBuilder:(context,index){
                 
-                color: const Color.fromARGB(255, 1, 3, 4),
-                fontSize: 15,
-                fontWeight: FontWeight.bold)
-                ),
-              ),
-
-              SizedBox(height: 5.0,),
-       
-              Container(
-                width: MediaQuery.of(context).size.width /1.7,
-              child: Text("scientist found the the reason and place of corona virus ",
-              style: TextStyle(
+                  return BlogTile(desc: articles[index].description!, imageUrl: articles[index].urlToImage!, title: articles[index].title!);
                 
-                color: const Color.fromARGB(230, 49, 50, 50),
-                fontSize: 13)
-                ),
-              ),
-              ]
-             ),
-            ],
-        ),
-                ),
-          ),
-             ),
-          ],
+              }),
+             )
+          ],   
         ),
       ),
       ),
@@ -302,4 +216,72 @@ class Categorytile extends StatelessWidget {
     );
   }
  
+}
+class BlogTile extends StatelessWidget {
+  String imageUrl,title,desc;
+  BlogTile({required this.desc,required this.imageUrl,required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+              onTap: (){
+
+              },
+                
+
+               child:  Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+              child:Material(
+                elevation: 4.0,
+                child:Padding(
+                  padding: EdgeInsets.all(5.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child:ClipRRect(
+                  borderRadius:BorderRadius.circular(5) ,
+               child:  Image.network(
+                imageUrl,
+                height: 100,width: 100,fit: BoxFit.cover,),),
+
+              ),
+              SizedBox(width: 10,),
+
+             Column(   
+              children: [
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text(
+                title,
+              style: TextStyle(
+                
+                color: const Color.fromARGB(255, 1, 3, 4),
+                fontSize: 15,
+                fontWeight: FontWeight.bold)
+                ),
+              ),
+
+              SizedBox(height: 5.0,),
+       
+              Container(
+                width: MediaQuery.of(context).size.width /1.7,
+              child: Text(desc,
+              style: TextStyle(
+                
+                color: const Color.fromARGB(230, 49, 50, 50),
+                fontSize: 13)
+                ),
+              ),
+              ]
+             ),
+            ],
+        ),
+                ),
+          ),
+             ),
+
+              
+             );
+  }
 }
